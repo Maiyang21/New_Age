@@ -4,4 +4,4 @@
 #INTEREST: maths and science | science and maths
 #AREAS OF APPLICATION: domain specific system modeling, simulations & design; security, automation, finance, hardware/software development
 
-#fRAME: THE WILL TO ACT
+#FRAME: THE WILL TO ACT
