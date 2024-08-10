@@ -8,6 +8,11 @@ from sklearn.metrics import mean_squared_error, accuracy_score, confusion_matrix
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from FRA_PROJ import DATA_FRA, MODEL_FRA
+
+#loading trained model parameters to test_model
+model_tst= MODEL_FRA.model()
+model_test.load_state_dict(torch.load('trained_params.pt'))
 
 """Testing model after training """
 def test_model(ds_test: pd.DataFrame, model: nn.Module, n_class: int, n_loss: torch.nn.modules.loss._WeightedLoss):

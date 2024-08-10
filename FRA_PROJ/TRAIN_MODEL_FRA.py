@@ -8,6 +8,8 @@ from sklearn.metrics import mean_squared_error, accuracy_score, confusion_matrix
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from FRA_PROJ import DATA_FRA, MODEL_FRA
+
 
 """functional model training"""
 def train(
@@ -29,5 +31,6 @@ def train(
         m_loss.backward()  # backward pass
         optimizer.step()  # update weights
         loss += (m_loss.detach().item() - loss) / (i + 1)  # cumulative loss
+    torch.save(model.state_dict(), 'Trained_params.pt') #saving adjusted weights and bias
     return loss
 

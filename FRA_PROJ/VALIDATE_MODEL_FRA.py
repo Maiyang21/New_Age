@@ -9,6 +9,7 @@ from collections import OrderedDict
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from FRA_PROJ import DATA_FRA, MODEL_FRA
 
 
 def get_overall_metrics(y_true: np.ndarray, y_eval: np.ndarray) -> dict:
