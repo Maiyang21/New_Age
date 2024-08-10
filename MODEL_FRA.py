@@ -17,6 +17,9 @@ class model(nn.Module):
         x= F.tanh(self.fc1(x))
         x= F.tanh(self.fc2(x))
         x= F.tanh(self.fc3(x))
+        # early learning stage of model
+        # used the tanh activation to allow more flexibility and sensitivity to outlier
         x= F.softmax(self.out(x), dim=-1)
+        #softmax used to allow bias influence on training model
         # output result
         return x

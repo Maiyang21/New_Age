@@ -1,6 +1,18 @@
 #PROJECT NAME: Financial Risk Analysis
+
+
+
 #OBJECTIVE: To see how individuals rate on a probability to default loan based on their country or states
+
+
+
+
+
 #AIM: Reduce the likelihood of return default on loaning institutes
+
+
+
+
 #SCOPE: Global Scale
 
 
