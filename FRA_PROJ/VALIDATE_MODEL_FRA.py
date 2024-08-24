@@ -1,4 +1,5 @@
-#libraries involved
+# libraries involved
+from typing import Dict, Any
 import numpy as np
 import pandas as pd
 import sklearn
@@ -9,11 +10,33 @@ from collections import OrderedDict
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from FRA_PROJ import DATA_FRA, MODEL_FRA
+from scratches import DATA_FRA, MODEL_FRA
+from DATA_FRA import Data_PP, FeatureEngine
+from MODEL_FRA import Model
+import pickle
+
+"""Model testing and performance analysis."""
+
+# deserializing modules needed for testing
+pickle.load(open('FRA_model.pkl', 'rb'))
+pickle.load(open('FRA_PP.pkl', 'rb'))
+pickle.load(open('Feat_Eng.pkl', 'rb'))
 
 
+# Testing model for performance analysis
+def test(ds: pd.DataFrame):
+    # get testing data scheme
+    y_true, x_val = Data_PP(ds, 'test')
+    y_eval = Model.forward(x_val, F.relu)  # using relu activation for validating model for abrupt approach
+    # converting results to type array
+    y_eval= y_eval.detch().numpy()
+    y_true= y_true.detach().numpy()
+    # output test predicted val and true val
+    return y_eval, y_true
+
+
+# Get overall performance metrics.
 def get_overall_metrics(y_true: np.ndarray, y_eval: np.ndarray) -> dict:
-    """Get overall performance metrics."""
     metrics = precision_recall_fscore_support(y_true, y_eval, average="weighted")
     overall_metrics = {
         "precision": metrics[0],
@@ -24,9 +47,9 @@ def get_overall_metrics(y_true: np.ndarray, y_eval: np.ndarray) -> dict:
     return overall_metrics
 
 
+# Get class Specific metrics
 def class_metrics(y_true: np.ndarray, y_eval: np.ndarray,
                   class_to_index: dict) -> dict:
-    """Get class Specific metrics"""
     class_metrics = {}
     metrics = precision_recall_fscore_support(y_true, y_eval, average=None)
     for i, _class in enumerate(class_to_index):
@@ -40,10 +63,17 @@ def class_metrics(y_true: np.ndarray, y_eval: np.ndarray,
     return sorted_class_metrics
 
 
-def classification_score(y_true: np.ndarray, y_eval: np.ndarray) -> float:
-    """Get accuracy and matrix classification of data"""
+# Get accuracy and matrix classification of data
+def classification_score(y_true: np.ndarray, y_eval: np.ndarray) -> dict[str, float | int | Any]:
     acc = accuracy_score(y_true, y_eval)
     mat = confusion_matrix(y_true, y_eval)
     res = {'accuracy': acc, 'relationship': mat, }
 
     return res
+
+
+# serializing validation modules
+pickle.dump(test, open('FRA_test.pkl', 'wb'))
+pickle.dump(get_overall_metrics,open('FRA_om.pkl','wb'))
+pickle.dump(class_metrics,open('FRA_cm.pkl','wb'))
+pickle.dump(classification_score,open('FRA_cs.pkl','wb'))
