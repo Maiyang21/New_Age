@@ -42,7 +42,7 @@ requests.post(url, data=json.dumps(payload), headers=headers)
 # defining the prediction APi
 @App.route('/Predict_API', methods=['Post'])
 def Predict_API():
-    data = request.json['data']
+    data = request.json['FRA_data']
     r_data = data
     val = np.array(list(r_data)).reshape(14, -1)
     t_data = pd.DataFrame(val)
