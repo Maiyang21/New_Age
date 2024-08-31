@@ -8,7 +8,7 @@ from sklearn.metrics import mean_squared_error, accuracy_score, confusion_matrix
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from scratches import DATA_FRA, MODEL_FRA
+from FRA_PROJ import DATA_FRA, MODEL_FRA
 
 
 """Testing model after training """
