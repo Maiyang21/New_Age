@@ -6,9 +6,8 @@ import pandas as pd
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from scratches import DATA_FRA, MODEL_FRA
+from FRA_PROJ import DATA_FRA, MODEL_FRA
 import pickle
-from scratches import DATA_FRA, MODEL_FRA
 from DATA_FRA import FeatureEngine, Data_PP
 from MODEL_FRA import Model
 
