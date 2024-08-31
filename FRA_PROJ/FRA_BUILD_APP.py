@@ -12,7 +12,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import pickle
-from scratches import MODEL_FRA, DATA_FRA, TRAIN_MODEL_FRA, VALIDATE_MODEL_FRA
+from FRA_PROJ import MODEL_FRA, DATA_FRA, TRAIN_MODEL_FRA, VALIDATE_MODEL_FRA
 
 """Web App build setup"""
 
