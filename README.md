@@ -20,7 +20,7 @@ each batch completely different set of features
 
 #TOOLS USED: [GITHUB ACCOUNT](https://github.com/Maiyang21)
              [PYCHARM IDE](https://Jetbrains.com)
-             [POSTMAN API TESTING] (https://postman.com)
+             [POSTMAN API TESTING](https://postman.com)
 
 # PROJECT ENGINEER/DEVELOPER: ALEGE ABUBAKAR (Maiyang)
 
