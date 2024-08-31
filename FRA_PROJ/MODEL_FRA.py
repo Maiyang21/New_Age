@@ -16,7 +16,7 @@ class model(nn.Module):
         self.fc3 = nn.Linear(h2, h3)
         self.out = nn.Linear(h3, output_l)
 
-    # neuron functions and activations
+    # neuron functions and behaviours
     def forward(self, x, act_f: torch.nn.functional):
         x = act_f(self.fc1(x))
         x = act_f(self.fc2(x))
@@ -27,6 +27,6 @@ class model(nn.Module):
 
 
 # serializing model
-torch.manual_seed(50) # locking random state generator
+torch.manual_seed(50) # locking into a random state
 Model = model()
 pickle.dump(Model, open('FRA_model.pkl', 'wb'))

@@ -1,4 +1,6 @@
-#libraries involved
+# libraries involved
+from typing import Tuple, Any
+
 import numpy as np
 import pandas as pd
 import torch
@@ -23,8 +25,8 @@ def train(
         act_func: torch.nn.functional,
         num_classes: int,
         optimizer: torch.optim.Optimizer,
-) -> float:
-    target, trainer = Data_PP(ds, 'train')
+) -> tuple[float, Any]:
+    target, trainer, col = Data_PP(ds, 'train')
     # initiating training procedure
     loss = 0.0
     for i in range(epoch):
@@ -35,7 +37,7 @@ def train(
         m_loss.backward()  # backward pass
         optimizer.step()  # update weights
         loss += (m_loss.detach().item() - loss) / (i + 1)  # cumulative loss
-    return loss
+    return loss , col
 
 
 # serializing the train module

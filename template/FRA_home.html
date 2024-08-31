@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>LOAN BASED FINANCIAL RISK ANALYSIS</title>
+  </head>
+  <body>
+    <div class="container main">
+  <div class="jumbo tron" id="holder">
+    <h1 class='main_heading'> FINANCIAL RISK ANALYSIS</h1>
+    <h3>Probability of Loan default Rough model</h3>
+    <br>
+    <div class="instructions">
+      <h2>Warning: </h2>
+      <p>1. The prediction by model a based of untrusted data</p>
+      <p>2. The channel is not secure for sensitive data share .</p>
+    </div>
+    <br>
+    <br>
+    <form class="form-horizontal">
+      <form action="{{url_for('Predict')}}" method="Post">
+       <div class="form-group">
+        <label class="control-label col-sm-2">Age:</label>
+        <div class="col-sm-10">
+          <input  class="form-control" id="f1" placeholder="Age" >
+        </div>
+       </div>
+       <div class="form-group">
+        <label class="control-label col-sm-2" >Gender:</label>
+        <div class="col-sm-10">
+          <input  class="form-control" id="f2" placeholder="Gender" >
+        </div>
+       </div>
+       <div class="form-group">
+        <label class="control-label col-sm-2" >Education:</label>
+        <div class="col-sm-10">
+          <input class="form-control" id="f3" placeholder=" Education" >
+        </div>
+       </div>
+       <div class="form-group">
+        <label class="control-label col-sm-2" >Marital Status:</label>
+        <div class="col-sm-10">
+          <input class="form-control" id="f4" placeholder="Marital Status" >
+        </div>
+       </div>
+       <div class="form-group">
+        <label class="control-label col-sm-2" >Income:</label>
+        <div class="col-sm-10">
+          <input class="form-control" id="f5" placeholder="Income" >
+        </div>
+       </div>
+       <div class="form-group">
+        <label class="control-label col-sm-2" >Credit Score:</label>
+        <div class="col-sm-10">
+          <input class="form-control" id="f6" placeholder="Credit Score" >
+        </div>
+       </div>
+       <div class="form-group">
+        <label class="control-label col-sm-2" >Loan Amount:</label>
+        <div class="col-sm-10">
+          <input class="form-control" id="f7" placeholder="Loan Amount" >
+        </div>
+       </div>
+       <div class="form-group">
+        <label class="control-label col-sm-2" >Loan Purpose:</label>
+        <div class="col-sm-10">
+          <input class="form-control" id="f8" placeholder="Loan Purpose" >
+        </div>
+       </div>
+       <div class="form-group">
+        <label class="control-label col-sm-2" >Employment Status:</label>
+        <div class="col-sm-10">
+          <input class="form-control" id="f9" placeholder=" Employment Status" >
+        </div>
+       </div>
+       <div class="form-group">
+        <label class="control-label col-sm-2" >Years at Current Job:</label>
+        <div class="col-sm-10">
+          <input class="form-control" id="f10" placeholder="Yet at Current Job" >
+        </div>
+       </div>
+       <div class="form-group">
+        <label class="control-label col-sm-2" >Payment History:</label>
+        <div class="col-sm-10">
+          <input class="form-control" id="f11" placeholder=" Payment History" >
+        </div>
+       </div>
+       <div class="form-group">
+        <label class="control-label col-sm-2" >Debt-to-Income Ratio:</label>
+        <div class="col-sm-10">
+          <input class="form-control" id="f12" placeholder="Debt-to-Income Ratio" >
+        </div>
+       </div>
+       <div class="form-group">
+        <label class="control-label col-sm-2" >Assets Value:</label>
+        <div class="col-sm-10">
+          <input class="form-control" id="f13" placeholder="Assets Value" >
+        </div>
+       </div>
+       <div class="form-group">
+        <label class="control-label col-sm-2" >Previous Defaults:</label>
+        <div class="col-sm-10">
+          <input class="form-control" id="f14" placeholder="Previous Defaults" >
+        </div>
+       </div>
+
+
+       <div class="form-group">
+         <div class="col-sm-offset-2 col-sm-10">
+          <h2 class="result">result</h2>{{result}}
+           <button type="submit" class="button btn btn-default">Predict</button>
+         </div>
+       </div>
+      </form>
+    </form>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="page-footer font-small blue">
+
+  <div class="footer-copyright text-center py-3">
+    <div class="bottom">
+      <p><a href="#">Maiyang | Kaggle D</a></p>
+    </div>
+  </div>
+
+
+</footer>
+<!-- Footer -->
+
+  </body>
+</html>

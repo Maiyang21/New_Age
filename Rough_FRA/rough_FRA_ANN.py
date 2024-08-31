@@ -1,4 +1,4 @@
-#libraries involved
+# libraries involved
 import numpy as np
 import pandas as pd
 import sklearn
@@ -10,10 +10,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 import pickle
 
-#loading the data from source
+# loading the data from source
 FRA = pd.read_csv("C:/Users/PC/Documents/DATABASE/financial_risk_assessment.csv")
-FRA = FRA.drop(['Country', 'State', 'City','Gender','Marital Status','Loan Purpose'], axis=1)
-
+FRA = FRA.drop(['Country', 'State', 'City', 'Gender', 'Marital Status', 'Loan Purpose'], axis=1)
 
 
 # Data Cleaning and Preprocessing
@@ -38,8 +37,6 @@ def Data_PP(data: pd.DataFrame, choice: str):
         OE4 = OrdinalEncoder(categories=[['Poor', 'Fair', 'Good', 'Excellent']])
         RA['Payment History'] = OE4.fit_transform(RA['Payment History'].values.reshape(-1, 1).astype(str))
 
-
-
     elif choice == 'predict':
         RA = RA.drop(['Risk Rating'], axis=1)
         OE2 = OrdinalEncoder(categories=[['High School', "Bachelor's", "Master's", 'PhD']])
@@ -49,13 +46,10 @@ def Data_PP(data: pd.DataFrame, choice: str):
         OE4 = OrdinalEncoder(categories=[['Poor', 'Fair', 'Good', 'Excellent']])
         RA['Payment History'] = OE4.fit_transform(RA['Payment History'].values.reshape(-1, 1).astype(str))
 
-
-    # cleaning
+    # cleaning data
     for i in RA.columns:
         RA = RA.dropna()
         RA[i] = RA[i].astype(float)
-
-
 
     # Data Selection
     if choice == 'train' or choice == 'test':
@@ -89,7 +83,7 @@ class model(nn.Module):
         self.fc3 = nn.Linear(h2, h3)
         self.out = nn.Linear(h3, output_l)
 
-    # neuron functions
+    # neuron functions and behaviour
     def forward(self, x):
         x = F.tanh(self.fc1(x))
         x = F.tanh(self.fc2(x))

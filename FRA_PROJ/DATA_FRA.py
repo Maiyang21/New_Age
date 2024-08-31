@@ -13,7 +13,8 @@ import pickle
 
 def FeatureEngine(space: pd.DataFrame, i=None):
     fs = StandardScaler().fit_transform(space)
-    pcf = PCA(24, random_state=50)
+    n_dim= len(list(space.columns))
+    pcf = PCA(n_dim, random_state=50)
     pcf.fit_transform(fs)
     # features sorting based on significance on data
     feat_prob = list(pcf.explained_variance_)
@@ -26,42 +27,43 @@ def FeatureEngine(space: pd.DataFrame, i=None):
     if i not in feat_sel:
         space.drop([i], axis=1)
     # returning data scheme
-    return space
+    return space, list(space.columns)
 
 
-def Data_PP(data: pd.read_csv, choice: str):
+def Data_PP(data: pd.DataFrame, choice: str):
     global res
-    FRA = pd.read_csv(data)
-    RA = FRA.drop(['Country', 'State', 'City'], axis=1)
+
+    RA = data.drop(['Country', 'State', 'City'], axis=1)
 
     # encoding ordinal data
-    OE = OrdinalEncoder(categories=[['Low', 'Medium', 'High']])
-    RA['Risk Rating'] = OE.fit_transform(RA['Risk Rating'].values.reshape(-1, 1).astype(str))
-    TE = TargetEncoder()
-    RA['Education Level'] = OE.fit_transform(RA['Education Level'].values.reshape(-1, 1).astype(str),
-                                             RA['Risk Rating'])
-    RA['Employment Status'] = TE.fit_transform(RA['Employment Status'].values.reshape(-1, 1).astype(str),
-                                               RA['Risk Rating'])
-    RA['Payment History'] = TE.fit_transform(RA['Payment History'].values.reshape(-1, 1).astype(str),
-                                             RA['Risk Rating'])
-    # encoding nominal category
-    RA = pd.get_dummies(RA, columns=['Gender', 'Marital Status', 'Loan Purpose'],
-                        prefix=['Gender', 'Marital Status', 'Loan Purpose'])
-
-    # encoding categorical intervals
-    RA['Age'] = RA['Age'].astype(int)
-    bin = [16, 24, 30, 40, 60, 70]
-    val = [1, 2, 3, 4, 5]
-    RA['Age'] = pd.cut(RA['Age'], bins=bin, labels=val)
-
-    # Data Selection
     if choice == 'train' or choice == 'test':
+        OE = OrdinalEncoder(categories=[['Low', 'Medium', 'High']])
+        RA['Risk Rating'] = OE.fit_transform(RA['Risk Rating'].values.reshape(-1, 1).astype(str))
+        TE = TargetEncoder()
+        RA['Education Level'] = TE.fit_transform(RA['Education Level'].values.reshape(-1, 1).astype(str),
+                                                 RA['Risk Rating'])
+        RA['Employment Status'] = TE.fit_transform(RA['Employment Status'].values.reshape(-1, 1).astype(str),
+                                                   RA['Risk Rating'])
+        RA['Payment History'] = TE.fit_transform(RA['Payment History'].values.reshape(-1, 1).astype(str),
+                                                 RA['Risk Rating'])
+        # encoding nominal category
+        RA = pd.get_dummies(RA, columns=['Gender', 'Marital Status', 'Loan Purpose'],
+                            prefix=['Gender', 'Marital Status', 'Loan Purpose'])
+
+        # encoding categorical intervals
+        RA['Age'] = RA['Age'].astype(int)
+        bin = [16, 24, 30, 40, 60, 70]
+        val = [1, 2, 3, 4, 5]
+        RA['Age'] = pd.cut(RA['Age'], bins=bin, labels=val)
+
+        # Data Selection
+
         x = RA.drop(['Risk Rating'], axis=1)
         y = RA['Risk Rating']
         x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.75, random_state=50)
         # selecting features
-        x_train = FeatureEngine(x_train)
-        x_test = FeatureEngine(x_test)
+        x_train, x1_col = FeatureEngine(x_train)
+        x_test, x2_col = FeatureEngine(x_test)
         # Tensor data
         x_train = torch.FloatTensor(x_train.values)
         x_test = torch.FloatTensor(x_test.values)
@@ -69,14 +71,12 @@ def Data_PP(data: pd.read_csv, choice: str):
         y_test = torch.LongTensor(y_test.values)
         # output choice branching from user
         if choice == 'train':
-            res = y_train, x_train
+            res = y_train, x_train, x1_col
         if choice == 'test':
             res = y_test, x_test
 
     elif choice == 'predict':
-        z = RA.drop(['Risk Rating'], axis=1)
-        z = pd.get_dummies(z, columns=z.columns, prefix=z.columns)
-        z = FeatureEngine(z)
+        z = pd.get_dummies(data, columns=data.columns, prefix=data.columns) # since predict_api takes in reduced data
         z = torch.FloatTensor(z.values)
         res = z
 
@@ -86,4 +86,4 @@ def Data_PP(data: pd.read_csv, choice: str):
 
 # serializing preprocessing modules
 pickle.dump(Data_PP, open('FRA_PP.pkl', 'wb'))
-pickle.dump(FeatureEngine,open('Feat_Eng.pkl','wb'))
+pickle.dump(FeatureEngine, open('Feat_Eng.pkl', 'wb'))
