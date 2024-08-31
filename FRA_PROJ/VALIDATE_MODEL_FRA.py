@@ -10,7 +10,7 @@ from collections import OrderedDict
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from scratches import DATA_FRA, MODEL_FRA
+from FRA_PROJ import DATA_FRA, MODEL_FRA
 from DATA_FRA import Data_PP, FeatureEngine
 from MODEL_FRA import Model
 import pickle
